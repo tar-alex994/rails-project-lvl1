@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "hexlet_code/version"
+require_relative 'hexlet_code/version'
 
 module HexletCode
   # This class help to build tags.
@@ -11,7 +11,7 @@ module HexletCode
       tag_elements = open_tag(tag_name, attributes)
 
       unless SINGLE_TAGS.include?(tag_name)
-        tag_elements << block.call if block_given?
+        tag_elements << yield if block
         tag_elements << "</#{tag_name}>"
       end
 
@@ -19,11 +19,11 @@ module HexletCode
     end
 
     def self.open_tag(tag_name, attributes)
-      tag_attributes = attributes.each.with_object("".dup) do |(key, value), str|
+      tag_attributes = attributes.each.with_object(+'') do |(key, value), str|
         str.concat(" #{key}=\"#{value}\"")
       end
 
-      ["<"] << tag_name << tag_attributes << ">"
+      ['<'] << tag_name << tag_attributes << '>'
     end
   end
 end
