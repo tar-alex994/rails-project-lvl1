@@ -7,7 +7,17 @@ class TestHexletCode < Minitest::Test
     refute_nil ::HexletCode::VERSION
   end
 
-  def test_it_does_something_useful
-    assert false
+  def test_tag_build_with_single_tag
+    tag_name     = "input"
+    attributes   = { type: "submit", value: "Save" }
+    expected_tag = '<input type="submit" value="Save">'
+
+    assert { HexletCode::Tag.build(tag_name, attributes) == expected_tag }
+  end
+
+  def test_tag_build_with_paried_tag
+    expected_tag = '<label for="email">Email</label>'
+
+    assert { (HexletCode::Tag.build("label", for: "email") { "Email" }) == expected_tag }
   end
 end
