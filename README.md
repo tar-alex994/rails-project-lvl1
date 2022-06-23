@@ -27,10 +27,11 @@ If bundler is not being used to manage dependencies, install the gem by executin
     end
 
 В итоге поличтся следущий html:
-    <form action="/users" method="post">
-      <input name="name" type="text" value="rob">
-      <textarea cols="20" rows="40" name="job">hexlet</textarea>
-    </form>`
+```<form action="/users" method="post">
+  <input name="name" type="text" value="rob">
+  <textarea cols="20" rows="40" name="job">hexlet</textarea>
+</form>
+````
 
 ## Development
 
