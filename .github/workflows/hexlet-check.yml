@@ -25,17 +25,3 @@ jobs:
         uses: hexlet/project-action@release
         with:
           hexlet-id: ${{ secrets.HEXLET_ID }}
-
-      - name: Set up Ruby 3.0
-        uses: actions/setup-ruby@v1
-        with:
-          ruby-version: 3.0.x
-
-      - name: Install dependencies
-        run: make install
-
-      - name: Run Rubocop
-        run: make lint
-
-      - name: Run tests
-        run: make test
