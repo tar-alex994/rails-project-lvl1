@@ -2,34 +2,17 @@
 
 require_relative 'hexlet_code/version'
 
-# This module generate tags
+# This module help to generate tags
 module HexletCode
-  def self.form_for(_object, attributes = {}, &block)
+  autoload(:Tag, 'hexlet_code/tag.rb')
+  autoload(:FormContent, 'hexlet_code/form_content')
+
+  def self.form_for(object, attributes = {})
     url = attributes[:url] || '#'
-    Tag.build('form', action: url, method: 'post', &block)
-  end
 
-  # This class help to build tags.
-  class Tag
-    SINGLE_TAGS = %w[br input img link source].freeze
+    form_content = +''
+    form_content = yield(FormContent.new(object)).content if block_given?
 
-    def self.build(tag_name, attributes = {}, &block)
-      tag_elements = open_tag(tag_name, attributes)
-
-      unless SINGLE_TAGS.include?(tag_name)
-        tag_elements << yield if block
-        tag_elements << "</#{tag_name}>"
-      end
-
-      tag_elements.join
-    end
-
-    def self.open_tag(tag_name, attributes)
-      tag_attributes = attributes.each.with_object(+'') do |(key, value), str|
-        str.concat(" #{key}=\"#{value}\"")
-      end
-
-      ['<'] << tag_name << tag_attributes << '>'
-    end
+    Tag.build('form', action: url, method: 'post') { form_content.prepend("\n") }
   end
 end

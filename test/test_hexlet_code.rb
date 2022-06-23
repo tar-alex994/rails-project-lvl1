@@ -3,7 +3,7 @@
 require 'test_helper'
 
 class TestHexletCode < Minitest::Test
-  User = Struct.new(:name, :job, keyword_init: true)
+  User = Struct.new(:name, :job, :gender, keyword_init: true)
 
   def test_that_it_has_a_version_number
     refute_nil ::HexletCode::VERSION
@@ -26,7 +26,7 @@ class TestHexletCode < Minitest::Test
   def test_form_for_without_url
     user = User.new(name: 'rob')
 
-    expected_tag    = '<form action="#" method="post"></form>'
+    expected_tag    = "<form action=\"#\" method=\"post\">\n</form>"
     form_for_result = HexletCode.form_for user
 
     assert { form_for_result == expected_tag }
@@ -36,9 +36,45 @@ class TestHexletCode < Minitest::Test
     user = User.new(name: 'rob')
     url  = '/users'
 
-    expected_tag    = '<form action="/users" method="post"></form>'
+    expected_tag    = "<form action=\"/users\" method=\"post\">\n</form>"
     form_for_result = HexletCode.form_for user, url: url
 
     assert { form_for_result == expected_tag }
+  end
+
+  def test_form_for_with_inputs
+    user = User.new(name: 'rob', job: 'hexlet', gender: 'm')
+
+    expected_tag    = file_fixture('form_for_with_inputs')
+    form_for_result = HexletCode.form_for(user) do |f|
+      f.input :name
+      f.input :job, as: :text
+    end
+
+    assert { form_for_result == expected_tag }
+  end
+
+  def test_form_for_with_inputs_and_url
+    user = User.new(name: 'rob', job: 'hexlet', gender: 'm')
+
+    expected_tag    = file_fixture('form_for_with_inputs_and_url')
+    form_for_result = HexletCode.form_for(user, url: '/users') do |f|
+      f.input :name
+      f.input :job, as: :text
+    end
+
+    assert { form_for_result == expected_tag }
+  end
+
+  def test_form_for_errors
+    user = User.new(name: 'rob', job: 'hexlet', gender: 'm')
+
+    assert_raises NoMethodError do
+      HexletCode.form_for(user, url: 'users') do |f|
+        f.input :name
+        f.input :job, as: :text
+        f.input :age
+      end
+    end
   end
 end
