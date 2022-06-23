@@ -18,7 +18,19 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
-TODO: Write usage instructions here
+User = Struct.new(:name, :job, :gender, keyword_init: true)
+user = User.new name: 'rob', job: 'hexlet', gender: 'm'
+
+HexletCode.form_for user, url: '/users' do |f|
+  f.input :name
+  f.input :job, as: :text
+end
+
+В итоге поличтся следущий html:
+ <form action="/users" method="post">
+   <input name="name" type="text" value="rob">
+   <textarea cols="20" rows="40" name="job">hexlet</textarea>
+ </form>
 
 ## Development
 
