@@ -5,14 +5,10 @@ require_relative 'hexlet_code/version'
 # This module help to generate tags
 module HexletCode
   autoload(:Tag, 'hexlet_code/tag.rb')
-  autoload(:FormContent, 'hexlet_code/form_content')
+  autoload(:Form, 'hexlet_code/form.rb')
 
-  def self.form_for(object, attributes = {})
+  def self.form_for(object, attributes = {}, &block)
     url = attributes[:url] || '#'
-
-    form_content = +''
-    form_content = yield(FormContent.new(object)).content if block_given?
-
-    Tag.build('form', action: url, method: 'post') { form_content.prepend("\n") }
+    Form.build(object, url, block)
   end
 end

@@ -18,7 +18,7 @@ module HexletCode
 
     def self.open_tag(tag_name, attributes)
       tag_attributes = attributes.each.with_object(+'') do |(key, value), str|
-        str.concat(" #{key}=\"#{value}\"")
+        str.concat(" #{key}=\"#{value}\"") if value
       end
 
       ['<'] << tag_name << tag_attributes << '>'

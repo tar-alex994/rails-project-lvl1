@@ -27,9 +27,9 @@ class TestHexletCode < Minitest::Test
     user = User.new(name: 'rob')
 
     expected_tag    = "<form action=\"#\" method=\"post\">\n</form>"
-    form_for_result = HexletCode.form_for user
+    result_form_for = HexletCode.form_for user
 
-    assert { form_for_result == expected_tag }
+    assert { result_form_for == expected_tag }
   end
 
   def test_form_for_with_url
@@ -37,33 +37,46 @@ class TestHexletCode < Minitest::Test
     url  = '/users'
 
     expected_tag    = "<form action=\"/users\" method=\"post\">\n</form>"
-    form_for_result = HexletCode.form_for user, url: url
+    result_form_for = HexletCode.form_for user, url: url
 
-    assert { form_for_result == expected_tag }
+    assert { result_form_for == expected_tag }
   end
 
   def test_form_for_with_inputs
     user = User.new(name: 'rob', job: 'hexlet', gender: 'm')
 
     expected_tag    = file_fixture('form_for_with_inputs')
-    form_for_result = HexletCode.form_for(user) do |f|
+    result_form_for = HexletCode.form_for(user) do |f|
       f.input :name
       f.input :job, as: :text
     end
 
-    assert { form_for_result == expected_tag }
+    assert { result_form_for == expected_tag }
   end
 
   def test_form_for_with_inputs_and_url
     user = User.new(name: 'rob', job: 'hexlet', gender: 'm')
 
     expected_tag    = file_fixture('form_for_with_inputs_and_url')
-    form_for_result = HexletCode.form_for(user, url: '/users') do |f|
+    result_form_for = HexletCode.form_for(user, url: '/users') do |f|
       f.input :name
       f.input :job, as: :text
     end
 
-    assert { form_for_result == expected_tag }
+    assert { result_form_for == expected_tag }
+  end
+
+  def test_form_for_with_button
+    user         = User.new(job: 'hexlet')
+    expected_tag = file_fixture('form_for_with_button')
+
+    result_form_for = HexletCode.form_for(user) do |f|
+      f.input :name
+      f.input :job
+      f.submit
+    end
+
+    assert { result_form_for == expected_tag }
   end
 
   def test_form_for_errors
