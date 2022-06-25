@@ -51,14 +51,20 @@ module HexletCode
     end
 
     def html_input
+      html_options = @options.except(:as)
+      html_options.merge!(name: @field_name, type: 'text', value: @field_value)
       html = +'  '
-      html << HexletCode::Tag.build('input', name: @field_name, type: 'text', value: @field_value)
+      html << HexletCode::Tag.build('input', html_options)
       html << "\n"
     end
 
     def html_textarea
+      html_options          = @options.except(:as)
+      html_options[:cols] ||= '20'
+      html_options[:rows] ||= '40'
+      html_options[:name]   = @field_name
       html = +'  '
-      html << HexletCode::Tag.build('textarea', cols: '20', rows: '40', name: @field_name) { @field_value }
+      html << HexletCode::Tag.build('textarea', html_options) { @field_value }
       html << "\n"
     end
   end
