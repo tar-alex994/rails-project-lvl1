@@ -7,7 +7,11 @@ module HexletCode
       @object        = object
       @url           = url
       @form_elements = []
-      block&.call(self)
+      initialize_form_elements(block)
+    end
+
+    def initialize_form_elements(external_block)
+      external_block&.call(self)
     end
 
     def input(field_name, options = {})
