@@ -5,16 +5,11 @@ class Input
   def initialize(field_name, field_value, options)
     @field_name  = field_name
     @field_value = field_value
-    @options     = options
+    @options     = options.except(:as)
   end
 
   def to_html
-    html = html_label
-    html << if @options[:as] == :text
-              html_textarea
-            else
-              html_input
-            end
+    html_label + HexletCode::Tag.build('input', html_options)
   end
 
   private
@@ -23,17 +18,7 @@ class Input
     HexletCode::Tag.build('label', for: @field_name) { @field_name.capitalize.to_s }
   end
 
-  def html_input
-    html_options = @options.except(:as)
-    html_options.merge!(name: @field_name, type: 'text', value: @field_value)
-    HexletCode::Tag.build('input', html_options)
-  end
-
-  def html_textarea
-    html_options          = @options.except(:as)
-    html_options[:cols] ||= '20'
-    html_options[:rows] ||= '40'
-    html_options[:name]   = @field_name
-    HexletCode::Tag.build('textarea', html_options) { @field_value }
+  def html_options
+    { name: @field_name, type: 'text', value: @field_value }.merge(@options)
   end
 end
