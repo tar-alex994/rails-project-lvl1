@@ -28,7 +28,7 @@ module HexletCode
 
     def to_html
       form_content = @form_elements.map(&:to_html).join
-      HexletCode::Tag.build('form', action: @url, method: 'post') { form_content.prepend("\n") }
+      HexletCode::Tag.build('form', action: @url, method: 'post') { form_content }
     end
   end
 end

@@ -7,8 +7,6 @@ class Submit
   end
 
   def to_html
-    html = +'  '
-    html << HexletCode::Tag.build('input', name: 'commit', type: 'submit', value: @submit_text)
-    html << "\n"
+    HexletCode::Tag.build('input', name: 'commit', type: 'submit', value: @submit_text)
   end
 end

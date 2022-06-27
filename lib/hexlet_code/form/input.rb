@@ -20,17 +20,13 @@ class Input
   private
 
   def html_label
-    html = +'  '
-    html << HexletCode::Tag.build('label', for: @field_name) { @field_name.capitalize.to_s }
-    html << "\n"
+    HexletCode::Tag.build('label', for: @field_name) { @field_name.capitalize.to_s }
   end
 
   def html_input
     html_options = @options.except(:as)
     html_options.merge!(name: @field_name, type: 'text', value: @field_value)
-    html = +'  '
-    html << HexletCode::Tag.build('input', html_options)
-    html << "\n"
+    HexletCode::Tag.build('input', html_options)
   end
 
   def html_textarea
@@ -38,8 +34,6 @@ class Input
     html_options[:cols] ||= '20'
     html_options[:rows] ||= '40'
     html_options[:name]   = @field_name
-    html = +'  '
-    html << HexletCode::Tag.build('textarea', html_options) { @field_value }
-    html << "\n"
+    HexletCode::Tag.build('textarea', html_options) { @field_value }
   end
 end

@@ -26,7 +26,7 @@ class TestHexletCode < Minitest::Test
   def test_form_for_without_url
     user = User.new(name: 'rob')
 
-    expected_tag    = "<form action=\"#\" method=\"post\">\n</form>"
+    expected_tag    = '<form action="#" method="post"></form>'
     result_form_for = HexletCode.form_for user
 
     assert { result_form_for == expected_tag }
@@ -36,7 +36,7 @@ class TestHexletCode < Minitest::Test
     user = User.new(name: 'rob')
     url  = '/users'
 
-    expected_tag    = "<form action=\"/users\" method=\"post\">\n</form>"
+    expected_tag    = '<form action="/users" method="post"></form>'
     result_form_for = HexletCode.form_for user, url: url
 
     assert { result_form_for == expected_tag }
@@ -46,6 +46,7 @@ class TestHexletCode < Minitest::Test
     user = User.new(name: 'rob', job: 'hexlet', gender: 'm')
 
     expected_tag    = file_fixture('form_for_with_inputs')
+    expected_tag    = delete_two_spaces_and_switching_to_new_line(expected_tag)
     result_form_for = HexletCode.form_for(user) do |f|
       f.input :name
       f.input :job, as: :text
@@ -58,6 +59,7 @@ class TestHexletCode < Minitest::Test
     user = User.new(name: 'rob', job: 'hexlet', gender: 'm')
 
     expected_tag    = file_fixture('form_for_with_inputs_and_url')
+    expected_tag    = delete_two_spaces_and_switching_to_new_line(expected_tag)
     result_form_for = HexletCode.form_for(user, url: '/users') do |f|
       f.input :name
       f.input :job, as: :text
@@ -69,6 +71,7 @@ class TestHexletCode < Minitest::Test
   def test_form_for_with_button
     user         = User.new(job: 'hexlet')
     expected_tag = file_fixture('form_for_with_button')
+    expected_tag = delete_two_spaces_and_switching_to_new_line(expected_tag)
 
     result_form_for = HexletCode.form_for(user) do |f|
       f.input :name
